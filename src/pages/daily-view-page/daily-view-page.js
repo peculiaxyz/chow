@@ -44,6 +44,11 @@ const DailyViewPage = props => {
     props.history.push("/create");
   };
 
+  const gotoMealDetails = (e) =>{
+    console.log("View details event: ", e);
+    props.history.push("/details/randomth");
+  }
+
   return (
     <>
       <header className="page-header">
@@ -60,12 +65,12 @@ const DailyViewPage = props => {
         <section className="section-divider">
           <hr />
         </section>
-        <GroupedListItem mealOptions={breakfastMeals} period="1"/>
-        <GroupedListItem mealOptions={brunchMeals} period="2"/>
-        <GroupedListItem mealOptions={lunchMeals} period="3"/>
-        <GroupedListItem mealOptions={afternoonSnackMeals} period="4"/>
-        <GroupedListItem mealOptions={supperMeals} period="5"/>
-        <GroupedListItem mealOptions={eveningSnackMeals} period="6"/>
+        <GroupedListItem mealOptions={breakfastMeals} period="1" viewItemDetails={gotoMealDetails}/>
+        <GroupedListItem mealOptions={brunchMeals} period="2" viewItemDetails={gotoMealDetails}/>
+        <GroupedListItem mealOptions={lunchMeals} period="3" viewItemDetails={gotoMealDetails}/>
+        <GroupedListItem mealOptions={afternoonSnackMeals} period="4" viewItemDetails={gotoMealDetails}/>
+        <GroupedListItem mealOptions={supperMeals} period="5" viewItemDetails={gotoMealDetails}/>
+        <GroupedListItem mealOptions={eveningSnackMeals} period="6" viewItemDetails={gotoMealDetails}/>
       </article>
       <footer>
         <button className="action-btn chow-btn" onClick={viewAddPage}>Add new</button>

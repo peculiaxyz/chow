@@ -64,7 +64,7 @@ function AddMealPage() {
   return (
     <>
       <header>
-        <h2>Add new meal</h2>
+        <h2>Add a new meal</h2>
       </header>
       <form onSubmit={submitNewMealOption}>
         <section className="form-group">
@@ -116,7 +116,7 @@ function AddMealPage() {
             value={period}
             onChange={handlePeriodChange}
             min="1"
-            max="4"
+            max="6"
             name="period"
             id="period"
             className="chow-text-input"
