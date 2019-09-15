@@ -2,18 +2,8 @@ import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import DailyViewPage from './pages/daily-view-page';
-import TestItemsList from './testdata/seed';
+import  AddMealPage from "./pages/add-meal/add-meal.page";
 
-function A() {
-  return (
-    <React.Fragment>
-      <h1>I am A</h1>
-      <button>
-        <Link to="/">Back</Link>
-      </button>
-    </React.Fragment>
-  );
-}
 
 function NavGrid(props) {
   const onaction = ()=>{
@@ -41,11 +31,12 @@ function App() {
   return (
     <Router className="content-container">
       <header className="App-header">
-        <h4>BBD</h4>
+        <h4>Chow</h4>
       </header>
       <main>
         <Route path="/" exact component={NavGrid} />
         <Route path="/events" component={DailyViewPage} />
+        <Route path="/create" component={AddMealPage}/>
       </main>
       <footer>
         <span>
