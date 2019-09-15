@@ -1,0 +1,31 @@
+.list-item{
+    padding: 5px;
+    margin: 2em auto;
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
+.list-item-bullet{
+    background: white;
+    font-size: 2em;
+}
+
+.list-item-content{
+    margin-top: 0.4em;
+}
+
+.list-item-action-btn{
+    justify-self: right;
+    justify-content: right;
+    font-size: 2em;
+}
+
+.list-item-action-btn:hover{
+    color: indigo;
+}
+
+.descrList{
+    font-size: 0.7em;
+}

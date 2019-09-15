@@ -1,0 +1,38 @@
+.page-header{
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+small{
+    font-weight: normal;
+    font-size: 0.6em;
+}
+
+.section-divider>hr{
+    background: deeppink;
+    border: 1px solid deeppink;
+}
+
+.list-item{
+    padding: 5px;
+    margin: 1.5em auto;
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.list-item-bullet{
+    background: white;
+    font-size: 2em;
+}
+
+.list-item-content{
+    margin-top: 0.4em;
+}
+
+.list-item-action-btn{
+    justify-self: right;
+    justify-content: right;
+    font-size: 2em;
+}
