@@ -38,10 +38,5 @@ small{
 }
 
 .action-btn{
-    outline: none;
-    background: indigo;
-    color: white;
-    padding: 10px;
     width: 30vw;
-    border-radius: 5px;
 }

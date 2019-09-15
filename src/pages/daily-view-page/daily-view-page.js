@@ -68,7 +68,7 @@ const DailyViewPage = props => {
         <GroupedListItem mealOptions={eveningSnackMeals} period="6"/>
       </article>
       <footer>
-        <button className="action-btn" onClick={viewAddPage}>Add new</button>
+        <button className="action-btn chow-btn" onClick={viewAddPage}>Add new</button>
       </footer>
     </>
   );
