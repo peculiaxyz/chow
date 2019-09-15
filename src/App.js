@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
-import DailyViewPage from './pages/daily-view-page';
+import DailyViewPage from './pages/daily-view-page/daily-view-page';
 import  AddMealPage from "./pages/add-meal/add-meal.page";
 
 

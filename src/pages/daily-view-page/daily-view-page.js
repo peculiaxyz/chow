@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./daily-view-page.css";
-import GroupedListItem from "./../components/grouped-list-item/grouped-list-item";
-import TestItemsList, { periods } from "./../testdata/seed";
+import GroupedListItem from "../../components/grouped-list-item/grouped-list-item";
+import TestItemsList, { periods } from "../../testdata/seed";
 
 
 const getMealsForPeriod = ({repository, period}) => {
@@ -60,12 +60,12 @@ const DailyViewPage = props => {
         <section className="section-divider">
           <hr />
         </section>
-        <GroupedListItem mealOptions={breakfastMeals} />
-        <GroupedListItem mealOptions={brunchMeals} />
-        <GroupedListItem mealOptions={lunchMeals} />
-        <GroupedListItem mealOptions={afternoonSnackMeals} />
-        <GroupedListItem mealOptions={supperMeals} />
-        <GroupedListItem mealOptions={eveningSnackMeals} />
+        <GroupedListItem mealOptions={breakfastMeals} period="1"/>
+        <GroupedListItem mealOptions={brunchMeals} period="2"/>
+        <GroupedListItem mealOptions={lunchMeals} period="3"/>
+        <GroupedListItem mealOptions={afternoonSnackMeals} period="4"/>
+        <GroupedListItem mealOptions={supperMeals} period="5"/>
+        <GroupedListItem mealOptions={eveningSnackMeals} period="6"/>
       </article>
       <footer>
         <button className="action-btn" onClick={viewAddPage}>Add new</button>

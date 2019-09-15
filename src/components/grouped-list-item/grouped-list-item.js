@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from "react";
 import './grouped-list-item.css';
 
-const GroupedListItem = ({mealOptions}) => {
+const GroupedListItem = ({mealOptions, period}) => {
 
   const [mealsList, setmealsList] = useState(mealOptions? mealOptions:[]);
   const [mealOptionIdx, setMealOptionIdx] = useState(0);
@@ -25,7 +25,8 @@ const GroupedListItem = ({mealOptions}) => {
     <div className="content-wrapper">
       <section className="list-item">
         <div className="list-item-bullet">
-          <i className="fa fa-circle"></i>
+          {period}
+          {/* <i className="fa fa-ellipsis-v"></i> */}
         </div>
 
         <div className="list-item-content">
