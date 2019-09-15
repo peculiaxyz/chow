@@ -1,6 +1,6 @@
 .list-item{
     padding: 5px;
-    margin: 2em auto;
+    margin: 1em auto;
     display: grid;
     grid-template-columns: 1fr 4fr 1fr;
     border: 1px solid rgba(0, 0, 0, 0.2);
