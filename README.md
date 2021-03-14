@@ -15,6 +15,14 @@
 </ol>
 
 
+### Instructions to upgrade to v17
+```
+npm install react-scripts@4.0.0 react@17.0.0 react-dom@17.0.0
+rm -rf node_modules package-lock.json
+npm install webpack@nex
+```
+
+
 <br/>
 <hr/>
 Proudly made by <a href="https://peculia.xyz">Peculia IT</a>
