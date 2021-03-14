@@ -1,8 +1,8 @@
-# Chow - Simple meal plan management app
+# Chow -  Meal plan management
 
 * Chow is a simple app that help you manage your meal plans to promote healthy living
 
-* **The app is till under development**
+>**NB:** *The app is till under development*
 
 <h4>When complete it will have the following features</h4>
 
@@ -15,5 +15,6 @@
 </ol>
 
 
-
-The app is been developed by the folks <a href="https://peculia.xyz">peculia.xyz</a> and will be availble for download for free in the next few months.
+<br/>
+<hr/>
+Proudly made by <a href="https://peculia.xyz">Peculia IT</a>
