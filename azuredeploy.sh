@@ -11,6 +11,8 @@ StorageContainerPublicAccessScope="container"  # Allowed values: blob, container
 StorageAccessTier="Hot"
 SiteName="chow"
 AppName="Chow Meals" 
+BuildDir="Directory where your production optimised build resides"
+GitHubRepoUrl=""
 
 # Set the default location for all resources
 az config set default.location=$Location
@@ -35,4 +37,18 @@ az storage container create -n $StorageContainerName \
  --sas-token $SAS_TOKEN \
  --account-name $StorageAccountName \
  --public-access $StorageContainerPublicAccessScope
+
+
+
+# Deploy static web app to Azure from Github
+# NB: Not all regions are supported in current preview mode - 14 March 2021
+az staticwebapp create \
+    -n $SiteName \
+    -g $ResourceGroupName \
+    --location centralus \
+    --source $GitHubRepoUrl \
+    --branch main \
+    --app-artifact-location $BuildDir \
+    --token $GITHUB_ACCESS_TOKEN \
+    --tags KeepRunning=False FullAppName="$AppName" displayName="Chow Meals Static Web App" --verbose -o yamlc
 
