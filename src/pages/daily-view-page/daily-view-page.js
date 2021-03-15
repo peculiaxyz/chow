@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./daily-view-page.css";
 import GroupedListItem from "../../components/grouped-list-item/grouped-list-item";
-import { periods } from "../../data/seed";
+import { periods, FakeMealOptions } from "../../data/seed";
+import {AppSettings} from '../../shared/shared'
 
 
 const getMealsForPeriod = ({repository, period}) => {
@@ -14,17 +15,34 @@ const getMealsForPeriod = ({repository, period}) => {
 const DailyViewPage = props => {
   const [hasErrors, setHasErros] = useState(false);
   const [mealOptions, setMealOptions] = useState([]);
+  const fetchUrl = `${AppSettings.mealsAPI.baseURL}/chow-options/all`;
 
   useEffect(() => {
     if (localStorage.getItem("mealOptionsList") === null) {
-      fetch("https://chow-api.azurewebsites.net/api/chow-options/all")
-        .then(res => res.json())
-        .then(res => {
-          setMealOptions(res);
-          localStorage.setItem("mealOptionsList", JSON.stringify(res));
-          console.log("Results retrned from a api: ", res);
+      setMealOptions(FakeMealOptions);
+      // console.log(FakeMealOptions);
+
+      try{
+        fetch(fetchUrl)
+        .then(res =>  {
+          // if(res){
+          //   return res.json();
+          // }
         })
-        .catch(() => setHasErros({ hasErrors: true }));
+        .then(res => {
+          // setMealOptions(res);
+          // localStorage.setItem("mealOptionsList", JSON.stringify(res));
+        })
+        .catch((e) => {
+          setHasErros({ hasErrors: true });
+          console.error(e);
+          // setMealOptions(FakeMealOptions);
+        });
+      }catch{
+        console.warn("Server is unresponsive");
+      }
+      
+
     } else {
       const cachedData = localStorage.getItem("mealOptionsList");
       setMealOptions(JSON.parse(cachedData));

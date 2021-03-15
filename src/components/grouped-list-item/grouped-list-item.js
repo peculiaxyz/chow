@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./grouped-list-item.css";
 
 const GroupedListItem = ({ mealOptions, period, viewItemDetails }) => {
+  console.log(mealOptions)
   const [mealsList, setmealsList] = useState(mealOptions ? mealOptions : []);
   const [mealOptionIdx, setMealOptionIdx] = useState(0);
   const [visibleMealOption, setVisibleMealOption] = useState(mealsList[0]);

@@ -24,56 +24,54 @@ export const periods = {
   eveningSnack:6
 };
 
-const TestItemsList = [
+export const FakeMealOptions = [
   {
     uniqueIdentifier: 11,
-    period: periods.morning,
-    day: 0,
-    shortName: "morning option",
+    period: periods.breakfast,
+    day: 1,
+    shortName: "morning option 1",
     description: "First thing in the morning"
   },
   {
     uniqueIdentifier: 12,
-    period: periods.lateAfternoon,
+    period: periods.afternoonSnack,
     day: 1,
     shortName: "morning option",
     description: "First thing in the morning"
   },
   {
     uniqueIdentifier: 25,
-    period: periods.morning,
+    period: periods.breakfast,
     day: 1,
     shortName: "morning option",
     description: "First thing in the morning"
   },
   {
     uniqueIdentifier: 14,
-    period: periods.morning,
-    day: 3,
+    period: periods.brunch,
+    day: 1,
     shortName: "Shake and banana",
     description: "First thing in the morning"
   },
   {
     uniqueIdentifier: 16,
-    period: periods.morning,
-    day: 3,
+    period: periods.lunch,
+    day: 1,
     shortName: "4 eggs and an apple",
     description: "First thing in the morning"
   },
   {
     uniqueIdentifier: 19,
-    period: periods.morning,
-    day: 6,
+    period: periods.eveningSnack,
+    day: 1,
     shortName: "morning option",
     description: "First thing in the morning"
   },
   {
     uniqueIdentifier: 21,
-    period: periods.morning,
-    day: 6,
+    period: periods.supper,
+    day: 1,
     shortName: "morning option",
     description: "First thing in the morning"
   }
 ];
-
-export default TestItemsList;
