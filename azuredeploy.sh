@@ -9,9 +9,10 @@ StorageKind="StorageV2"   # Allowed values: BlobStorage, BlockBlobStorage, FileS
 StorageContainerName="chowsitecontainer01"
 StorageContainerPublicAccessScope="container"  # Allowed values: blob, container, off
 StorageAccessTier="Hot"
-SiteName="chow"
+SiteName="chowstaticwebapp"
 AppName="Chow Meals" 
-BuildDir="Directory where your production optimised build resides"
+BuildLocation="build/"  # "Directory where your production optimised build resides"
+APIDir="api/"
 GitHubRepoUrl="https://github.com/Banzyme/chow"
 
 # Set the default location for all resources
@@ -47,8 +48,9 @@ az staticwebapp create \
     -g $ResourceGroupName \
     --location centralus \
     --source $GitHubRepoUrl \
-    --branch main \
-    --app-artifact-location $BuildDir \
+    --branch master \
+    --app-artifact-location $BuildLocation \
+    --api-location $APIDir \
     --token $GITHUB_ACCESS_TOKEN \
     --tags KeepRunning=False FullAppName="$AppName" displayName="Chow Meals Static Web App" --verbose -o yamlc
 
