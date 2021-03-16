@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "ChowServerlessRestAPI": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "Key": "Value",
+        "CosmosDBConnection": "AccountEndpoint=https://cosmosdbaccountchow.documents.azure.com:443/;AccountKey=yQ1xEpUGs4POhCz0G3Sng5xHfoXLBXpuwl13q81DbS3maUgYet0gK3bVrJrSlD8GbTbUGwgcjc54xtkKTuxwOA==;"
+      }
+    }
+  }
+}
