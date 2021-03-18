@@ -103,8 +103,10 @@ namespace ChowServerlessRestAPI
       Uri docUri = UriFactory.CreateDocumentUri("chowDB", "mealsCollection", docToUpdate.Id);
       if(!string.IsNullOrEmpty(updateData.Description)) docToUpdate.SetPropertyValue("description", updateData.Description);
       if (!string.IsNullOrEmpty(updateData.Category)) docToUpdate.SetPropertyValue("category", updateData.Category);
-      docToUpdate.SetPropertyValue("DayOfTheWeek", updateData.DayOfTheWeek);
+      docToUpdate.SetPropertyValue("calories", updateData.Calories);
+      docToUpdate.SetPropertyValue("isLocked", updateData.IsLocked);
       if (!string.IsNullOrEmpty(updateData.Name))  docToUpdate.SetPropertyValue("name", updateData.Name);
+      if (!string.IsNullOrEmpty(updateData.ThumbnailURL))  docToUpdate.SetPropertyValue("thumbnailURL", updateData.ThumbnailURL);
 
       var opts = new RequestOptions() { EnableScriptLogging = true};
       ResourceResponse<Document> result = await cosmosDBClient.ReplaceDocumentAsync(docUri, docToUpdate, opts);
