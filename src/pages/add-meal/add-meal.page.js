@@ -3,12 +3,18 @@ import SimpleBackBtn from './../../components/back-btn'
 import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import MenuItem from '@material-ui/core/MenuItem';
+import MuiAlert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
 import TextField from '@material-ui/core/TextField';
 import { AppSettings } from './../../shared/appsettings'
 import "./add-meal.page.css";
+import LinearProgress from '@material-ui/core/LinearProgress';
 import { MealOptionModel, mealCategory } from "../../models/models";
 
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,6 +53,9 @@ const categoryOptions = [
 ];
 
 
+const isNotNullOrEmpty = (strVal) => strVal !== null && strVal !== undefined && strVal !== "" && strVal.length > 3;
+
+
 const postDataToRemoteServer = async ({ data }) => {
   const postOptions = {
     method: "POST",
@@ -55,50 +64,79 @@ const postDataToRemoteServer = async ({ data }) => {
     },
     body: JSON.stringify(data)
   };
-  console.debug(`Adding new meal to db`, postOptions.body);
-  // return fetch(`${AppSettings.mealsAPI.baseURL}/mealoptions`, postOptions)
-  //   .then(response => response.json())
-  //   .then(res => res)
-  //   .catch(err => {
-  //     throw err;
-  //   });
+  return fetch(`${AppSettings.mealsAPI.baseURL}/mealoptions`, postOptions)
+    .then(response => response.json())
+    .then(res => res)
+    .catch(err => {
+      throw err;
+    });
 };
 
-function AddMealPage() {
-  const classes = useStyles();
+function AddMealPage(props) {
   const [isLoading, setIsLoading] = useState(false);
-  const [formErrs, setFormErrs] = useState("");
   const [mealNameIsInvalid, setMealNameIsInvalid] = useState(false);
 
   const [mealName, setMealName] = useState("");
   const [mealDescr, setMealDescr] = useState("");
-  const [mealCategory, setMealCategory] = useState("");
-  const [estimatedMealcalories, setCalories] = useState(0);
+  const [mealCategory, setMealCategory] = useState(categoryOptions[0].value);
+  const [estimatedMealcalories, setCalories] = useState(10);
+  const [snackState, setSnackState] = useState({isOpen:false, msg: "Success", timeout: 2000, severity:"info", lastRide: false});
+  let canIgo = false;
+
+
+  const goHome = () => {
+    if(snackState.lastRide){
+      props.history.push("/");
+    }
+  };
 
   const handleMealNameChange = (event) => {
     const newVal = event.target.value;
+    let isInValid = false;
     setMealName(newVal);
-    setMealNameIsInvalid(false);
 
-    if(newVal == null || newVal || undefined || newVal == "" || newVal.length < 3){
-      setMealNameIsInvalid(true);
+
+    if (newVal == null || newVal == undefined || newVal == "" || newVal.length < 3) {
+      isInValid = true;
     }
+    setMealNameIsInvalid(isInValid);
   }
-  const handleMealDescrChange = event=> setMealDescr(event.target.value);
+  const handleMealDescrChange = event => setMealDescr(event.target.value);
   const handleCategoryChange = event => setMealCategory(event.target.value);
   const handleCalorieChange = event => setCalories(event.target.value);
 
   const resetForm = () => {
     setIsLoading(false);
-    setFormErrs("");
     setMealName("");
     setMealDescr("");
     setMealCategory("");
     setCalories(0);
   };
 
+  const validateForm = () => {
+    return isNotNullOrEmpty(mealName) && isNotNullOrEmpty(mealCategory) && isNotNullOrEmpty(mealDescr) && estimatedMealcalories > 0;
+  }
+
+  const handleSnackClose = ()=> {
+    setSnackState({
+      isOpen: false
+    });
+    console.log("Can i go", canIgo);
+    goHome();
+  };
+
   const submitNewMealOption = async event => {
     event.preventDefault();
+    console.log("Form valid", validateForm());
+    if(!validateForm()){
+      setSnackState({
+        msg: "Form is invalid, please correct",
+        isOpen: true,
+        timeout: 2500,
+        severity: "warning"
+      });
+      return;
+    }
     const formVal = new MealOptionModel({
       name: mealName,
       category: mealCategory,
@@ -107,16 +145,27 @@ function AddMealPage() {
       thumbnailURL: AppSettings.DefaultThumbnailURL
     });
 
-    setMealNameIsInvalid(true);
-
     setIsLoading(true);
     try {
       await postDataToRemoteServer({ data: formVal.toJson() });
-      console.debug("New meal successfully added");
+      canIgo = true;
+      setSnackState({
+        msg: "New meal successfully added",
+        isOpen: true,
+        timeout: 800,
+        severity: "success",
+        lastRide: true
+      });
       resetForm();
     } catch (error) {
-      console.error("Error adding new meal, please try again", error);
+      setSnackState({
+        msg: "Error adding new meal, please try again." + error,
+        isOpen: true,
+        timeout: 2000,
+        severity: "success"
+      });
     } finally {
+      setIsLoading(false);
     }
   };
   return (
@@ -172,10 +221,17 @@ function AddMealPage() {
         />
 
         <section className="action-btns">
-          {mealNameIsInvalid? <button disabled className="chow-btn-disabled">Save</button>: <button className="chow-btn">Save</button>}
+          <button disabled={mealNameIsInvalid} className={mealNameIsInvalid ? "chow-btn-disabled" : "chow-btn"}>Save</button>
+          {/* {mealNameIsInvalid? <button disabled className="chow-btn-disabled">Save</button>: <button className="chow-btn">Save</button>} */}
           <SimpleBackBtn />
         </section>
       </form>
+      <Snackbar open={snackState.isOpen} autoHideDuration={snackState.timeout} onClose={handleSnackClose}>
+        <Alert severity={snackState.severity}>
+         {snackState.msg}
+        </Alert>
+      </Snackbar>
+      {isLoading ? <LinearProgress color="secondary" /> : "" }
     </>
   );
 }
