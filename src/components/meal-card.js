@@ -63,8 +63,7 @@ export function MealCard({ mealOptions, viewMealDetailsHanlder }) {
     };
 
     const handleEditClick = () => {
-        
-        console.debug("Edit not implemented!");
+        viewMealDetailsHanlder(visibleMealOption);
     }
 
     const handleLoveClick = () => {
@@ -76,7 +75,6 @@ export function MealCard({ mealOptions, viewMealDetailsHanlder }) {
     }
 
     const swipeHandlers = useSwipeable({
-        onTap: (e) => viewMealDetailsHanlder(visibleMealOption),
         onSwipedLeft: (e) => viewPreviousOption(e),
         onSwipedRight: (e) => viewNextOption(e),
         ...swipeConfig,
@@ -132,11 +130,12 @@ export function MealCard({ mealOptions, viewMealDetailsHanlder }) {
                     subheader={visibleMealOption ? visibleMealOption.category : ""}
                 />
                 <CardMedia
+                    onClick={handleEditClick}
                     className={classes.media}
                     title="Paella dish"
                     image={visibleMealOption ? (visibleMealOption.thumbnailURL ? visibleMealOption.thumbnailURL : img) : img}
                 />
-                <CardContent>
+                <CardContent onClick={handleEditClick}>
                     <Typography variant="body2" color="textSecondary" component="p">
                         {visibleMealOption ? truncateLongText({ text: visibleMealOption.description }) : ""}
                     </Typography>
