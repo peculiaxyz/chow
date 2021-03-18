@@ -48,7 +48,7 @@ const DailyViewPage = props => {
   }, []);
 
   const currentDateTime = new Date();
-  const breakfastMeals = filterMealsByCategory({allMealsList: mealOptions, category: mealCategory.lunch});// !!!
+  const breakfastMeals = filterMealsByCategory({allMealsList: mealOptions, category: mealCategory.breakfast});// !!!
   const brunchMeals = filterMealsByCategory({allMealsList: mealOptions, category: mealCategory.brunch});
   const lunchMeals = filterMealsByCategory({allMealsList: mealOptions, category: mealCategory.lunch});
   const afternoonSnackMeals = filterMealsByCategory({allMealsList: mealOptions, category: mealCategory.afternoonSnack});
@@ -80,7 +80,6 @@ const DailyViewPage = props => {
           <hr />
         </section>
         <MealCard mealOptions={breakfastMeals} viewMealDetailsHanlder={gotoMealDetails} />
-        <GroupedListItem mealOptions={breakfastMeals} period="1" viewItemDetails={gotoMealDetails}/>
         <GroupedListItem mealOptions={brunchMeals} period="2" viewItemDetails={gotoMealDetails}/>
         <GroupedListItem mealOptions={lunchMeals} period="3" viewItemDetails={gotoMealDetails}/>
         <GroupedListItem mealOptions={afternoonSnackMeals} period="4" viewItemDetails={gotoMealDetails}/>
