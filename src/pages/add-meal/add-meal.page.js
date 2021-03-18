@@ -129,7 +129,6 @@ function AddMealPage(props) {
 
   const submitNewMealOption = async event => {
     event.preventDefault();
-    console.log("Form valid", validateForm());
     if (!validateForm()) {
       setSnackState({
         msg: "Form is invalid, please correct",

@@ -1,5 +1,5 @@
 import React from "react";
-import {LeftBackArrow} from './../../components/back-btn'
+import { LeftBackArrow } from './../../components/back-btn'
 import "./meal-details.styles.css";
 
 function MealDetailsPage({ match }) {
@@ -14,10 +14,11 @@ function MealDetailsPage({ match }) {
   console.debug("Match prop in details page: ", match);
   return (
     <>
-      <h1>
-        <LeftBackArrow />
-        Meal details
-      </h1>
+      <header>
+        <LeftBackArrow className="back-arrow" />
+        <h1>Meal details</h1>
+      </header>
+
 
       <section className="action-btns">
         <button className="chow-btn-outline edit-btn" onClick={handleMealEdit}>
