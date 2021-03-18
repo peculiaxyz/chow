@@ -9,7 +9,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import { red, green, yellow, orange } from '@material-ui/core/colors';
+import { red, green, yellow, orange, purple } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import { Edit, Lock, LockOpen } from '@material-ui/icons';
@@ -38,8 +38,7 @@ const useStyles = makeStyles((theme) => ({
         transform: 'rotate(180deg)',
     },
     avatar: {
-        fontSize: "0.8rem",
-        backgroundColor: green[500],
+        fontSize: "0.8rem"
     },
 }));
 
@@ -56,11 +55,33 @@ export function MealCard({ mealOptions, viewMealDetailsHanlder }) {
     const [mealsList, setMealOptionsList] = useState(mealOptions ? mealOptions : []);
     const [mealOptionIdx, setMealOptionIdx] = useState(0);
     const [visibleMealOption, setVisibleMealOption] = useState();
+    const [calorieColor, setCalorieColor] = useState(purple[500])
 
     const handleLockClick = () => {
         setLocked(!locked);
         console.debug(`Lock ${locked ? "released" : "applied"}!`);
     };
+
+    const getCalorieColor = () => {
+        
+        const calorieValue = visibleMealOption?.calories ?? 0;
+        if(calorieValue < 250){
+            setCalorieColor(green[600]);
+            return;
+        }
+
+        if(calorieValue > 250 && calorieValue <= 350){
+            setCalorieColor(yellow[600]);
+            return;
+        }
+
+        if(calorieValue > 350 && calorieValue <= 500){
+            setCalorieColor(orange[600]);
+            return;
+        }
+
+        setCalorieColor(red[500]);
+    }
 
     const handleEditClick = () => {
         viewMealDetailsHanlder(visibleMealOption);
@@ -81,7 +102,6 @@ export function MealCard({ mealOptions, viewMealDetailsHanlder }) {
     });
 
     const viewNextOption = (e) => {
-        console.debug("Right swipe", e);
         let newIdx = mealOptionIdx + 1;
 
         if (newIdx >= mealOptions.length) {
@@ -89,11 +109,11 @@ export function MealCard({ mealOptions, viewMealDetailsHanlder }) {
         }
         setMealOptionIdx(newIdx);
         setVisibleMealOption(mealsList[newIdx]);
+        getCalorieColor();
     };
 
 
     const viewPreviousOption = (e) => {
-        console.debug("Left swipe", e);
         let newIdx = mealOptionIdx - 1;
 
         if (newIdx < 0) {
@@ -101,6 +121,7 @@ export function MealCard({ mealOptions, viewMealDetailsHanlder }) {
         }
         setMealOptionIdx(newIdx);
         setVisibleMealOption(mealsList[newIdx]);
+        getCalorieColor();
     };
 
     const truncateLongText = ({ text, maxLength = 90, noofEllipses = 3 }) => {
@@ -114,6 +135,7 @@ export function MealCard({ mealOptions, viewMealDetailsHanlder }) {
         if (mealOptions) {
             setVisibleMealOption(mealOptions[0]);
             setMealOptionsList(mealOptions);
+            getCalorieColor();
         }
     }, [mealOptions]);   // Reload card if mealOptions change
 
@@ -122,7 +144,7 @@ export function MealCard({ mealOptions, viewMealDetailsHanlder }) {
             <Card variant="outlined" raised={true} {...swipeHandlers} className={classes.root}>
                 <CardHeader
                     avatar={
-                        <Avatar aria-label="recipe" className={classes.avatar}>
+                        <Avatar aria-label="recipe" className={classes.avatar} style={{backgroundColor: calorieColor}}>
                             {visibleMealOption ? (visibleMealOption.calories ? visibleMealOption.calories : 0) : 0}
                         </Avatar>
                     }
