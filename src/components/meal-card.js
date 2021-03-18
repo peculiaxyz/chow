@@ -15,17 +15,22 @@ import ShareIcon from '@material-ui/icons/Share';
 import { Edit, Lock, LockOpen } from '@material-ui/icons';
 import { useSwipeable } from "react-swipeable";
 import img from './../static/images/meusli.jpg'
+import './meal-card.css';
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
         maxWidth: 345,
-        height: 260,
-        borderRadius: 16
+        height: "15rem",
+        borderRadius: 16,
+        display: "grid",
+        gridTemplateRows: "auto 1fr auto"
     },
     media: {
+        borderRadius: "50%",
+        marginRight: 3,
         height: 0,
-        paddingTop: '15%'//'56.25%', // 16:9
+        paddingTop: '100%'//'56.25%', // 16:9
     },
     expand: {
         transform: 'rotate(0deg)',
@@ -63,19 +68,19 @@ export function MealCard({ mealOptions, viewMealDetailsHanlder }) {
     };
 
     const getCalorieColor = () => {
-        
+
         const calorieValue = visibleMealOption?.calories ?? 0;
-        if(calorieValue < 250){
+        if (calorieValue < 250) {
             setCalorieColor(green[600]);
             return;
         }
 
-        if(calorieValue > 250 && calorieValue <= 350){
+        if (calorieValue > 250 && calorieValue <= 350) {
             setCalorieColor(yellow[600]);
             return;
         }
 
-        if(calorieValue > 350 && calorieValue <= 500){
+        if (calorieValue > 350 && calorieValue <= 500) {
             setCalorieColor(orange[600]);
             return;
         }
@@ -141,28 +146,33 @@ export function MealCard({ mealOptions, viewMealDetailsHanlder }) {
 
     return (
         <>
-            <Card variant="outlined" raised={true} {...swipeHandlers} className={classes.root}>
+            <Card boxShadow={3} variant="outlined" raised={true} {...swipeHandlers} className={classes.root}>
                 <CardHeader
+                    className="card-header"
                     avatar={
-                        <Avatar aria-label="recipe" className={classes.avatar} style={{backgroundColor: calorieColor}}>
+                        <Avatar aria-label="recipe" className={classes.avatar} style={{ backgroundColor: calorieColor }}>
                             {visibleMealOption ? (visibleMealOption.calories ? visibleMealOption.calories : 0) : 0}
                         </Avatar>
                     }
-                    title={visibleMealOption ? visibleMealOption.name : ""}
+                    title={visibleMealOption ? truncateLongText({ text: visibleMealOption.name, maxLength: 30 }) : ""}
                     subheader={visibleMealOption ? visibleMealOption.category : ""}
                 />
-                <CardMedia
-                    onClick={handleEditClick}
-                    className={classes.media}
-                    title="Paella dish"
-                    image={visibleMealOption ? (visibleMealOption.thumbnailURL ? visibleMealOption.thumbnailURL : img) : img}
-                />
-                <CardContent onClick={handleEditClick}>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        {visibleMealOption ? truncateLongText({ text: visibleMealOption.description }) : ""}
-                    </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
+
+                <section className="card-body">
+                    <CardContent onClick={handleEditClick}>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                            {visibleMealOption ? truncateLongText({ text: visibleMealOption.description }) : ""}
+                        </Typography>
+                    </CardContent>
+                    <CardMedia
+                        onClick={handleEditClick}
+                        className={classes.media}
+                        title={visibleMealOption?.name}
+                        image={visibleMealOption ? (visibleMealOption.thumbnailURL ? visibleMealOption.thumbnailURL : img) : img}
+                    />
+                </section>
+
+                <CardActions className="card-actions" disableSpacing>
                     <IconButton onClick={handleLoveClick} aria-label="add to favorites">
                         <FavoriteIcon />
                     </IconButton>
