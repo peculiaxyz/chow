@@ -118,10 +118,10 @@ const DailyViewPage = props => {
     props.history.push(`/details/${params.mealId}`);
   }
 
-  const handleLogin = () => {
+  const handleLogin = (e) => {
     // by deafult user will be redirected to home after login (i think...)
     if(currentUser){
-      setAnchorEl(event.currentTarget);
+      setAnchorEl(e.currentTarget);
       return;
     }
     props.history.push('/login');
