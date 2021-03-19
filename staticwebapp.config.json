@@ -17,7 +17,7 @@
       "redirect": "/.auth/logout"
     },
     {
-        "route": "/.auth/login/twitter",
+        "route": "/.auth/login/github",
         "statusCode": 403
     }
   ],

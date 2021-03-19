@@ -22,7 +22,7 @@ const DailyViewPage = props => {
   const fetchUrl = `${AppSettings.mealsAPI.baseURL}/mealoptions`;
 
   useEffect(() => {
-    console.log(getUserInfo());
+    console.debug("principal info", getUserInfo());
     if (localStorage.getItem("mealOptionsList") === null) {
       try {
         fetch(fetchUrl)
@@ -58,6 +58,12 @@ const DailyViewPage = props => {
 
   async function getUserInfo() {
     const response = await fetch("/.auth/me");
+    if(response?.status == 200 || response?.ok){
+      console.debug("User info retrieved!")
+    }else{
+      console.warn("auth.me returned", response);
+      return;
+    }
     const payload = await response.json();
     const { clientPrincipal } = payload;
     return clientPrincipal;
