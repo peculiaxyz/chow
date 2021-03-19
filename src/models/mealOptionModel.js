@@ -14,6 +14,7 @@ export class MealOptionModel {
         }
 
         this.id = "";
+        this.mealId = "",
         this.name = name; 
         this.description = description;
         this.category = category;
@@ -23,9 +24,16 @@ export class MealOptionModel {
         this.dateCreated = new Date();
         this.lastModified = new Date();
     }
+     getRandomInt(max) {
+        return Math.floor(Math.random() * Math.floor(max));
+      }
 
     get dateCreatfed(){
         return new Date();
+    }
+
+    generateMealId(){
+        return this.name.substring(0, 3) + this.getRandomInt(99999).toString();
     }
 
     isNullOrEmpty(val){
@@ -36,6 +44,7 @@ export class MealOptionModel {
         return {
             id: this.id,
             name: this.name,
+            mealId: this.generateMealId(),
             description: this.description,
             category: this.category,
             calories: this.calories,
@@ -56,6 +65,7 @@ export class MealOptionModel {
     loadJson({jsonData}){
         this.id = jsonData?.id ?? this.id;
         this.name = jsonData?.name ?? this.name;
+        this.mealId = jsonData?.mealId ?? this.mealId;
         this.category = jsonData?.category ?? this.category;
         this.calories = jsonData?.calories ?? this.calories;
         this.isLocked = jsonData?.isLocked ?? this.isLocked;

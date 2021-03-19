@@ -114,6 +114,10 @@ function MealDetailsPage({ history, match }) {
         <h1>{selectedMeal?.name}</h1>
       </header>
 
+      <section className="detailsBody">
+
+      </section>
+
 
       <section className="action-btns">
         <button className="chow-btn-outline edit-btn" onClick={handleMealEdit}>
