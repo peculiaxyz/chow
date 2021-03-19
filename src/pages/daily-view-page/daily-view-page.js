@@ -22,6 +22,7 @@ const DailyViewPage = props => {
   const fetchUrl = `${AppSettings.mealsAPI.baseURL}/mealoptions`;
 
   useEffect(() => {
+    console.log(getUserInfo());
     if (localStorage.getItem("mealOptionsList") === null) {
       try {
         fetch(fetchUrl)
@@ -54,6 +55,13 @@ const DailyViewPage = props => {
   const afternoonSnackMeals = filterMealsByCategory({ allMealsList: mealOptions, category: mealCategory.afternoonSnack });
   const supperMeals = filterMealsByCategory({ allMealsList: mealOptions, category: mealCategory.supper });
   const eveningSnackMeals = filterMealsByCategory({ allMealsList: mealOptions, category: mealCategory.eveningSnack });
+
+  async function getUserInfo() {
+    const response = await fetch("/.auth/me");
+    const payload = await response.json();
+    const { clientPrincipal } = payload;
+    return clientPrincipal;
+  }
 
   const addNewMealPage = () => {
     props.history.push("/create");
