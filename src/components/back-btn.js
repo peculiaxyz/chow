@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 
 export function LeftBackArrow() {
   return (
-    <>
+    <div style={{margin: "auto", paddingTop: 8}}>
       <Link to="/">
         <i
           className="fa fa-chevron-left back-nav"
         ></i>
       </Link>
-    </>
+    </div>
   );
 }
 

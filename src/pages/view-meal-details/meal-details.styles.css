@@ -1,16 +1,30 @@
-.edit-btn{
-    color: indigo;
+.container{
+    display: grid;
+    grid-template-rows: auto 2fr auto auto auto auto;
 }
 
-.btn-icon{
-    margin-left: 1em;
+header {
+  display: grid;
+  grid-template-columns: auto 1fr;
 }
 
-.back-nav{
-    margin-right: 1em;
+header > h1 {
+  margin: auto;
 }
 
-.back-nav:active{
-    color: indigo;
-    border: 2px solid pink;
+.edit-btn {
+  color: indigo;
+}
+
+.btn-icon {
+  margin-left: 1em;
+}
+
+.back-nav {
+  margin-right: 1em;
+}
+
+.back-nav:active {
+  color: indigo;
+  border: 2px solid pink;
 }

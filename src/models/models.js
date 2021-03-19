@@ -18,7 +18,7 @@ export const daysInAWeek = {
 
 
 export const mealCategory = {
-    breakfast: "BreakFast",
+    breakfast: "Breakfast",
     brunch: "Brunch",
     lunch: "Lunch",
     afternoonSnack: "Afternoon Snack",

@@ -1,3 +1,7 @@
+.cardSection{
+    margin-bottom: 1.2rem;
+}
+
 .page-header{
     display: grid;
     grid-template-columns: auto auto;
@@ -38,5 +42,7 @@ small{
 }
 
 .action-btn{
-    width: 30vw;
+    width: 50vw;
+    height: 6vh;
+    margin: auto;;
 }

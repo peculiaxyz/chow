@@ -1,0 +1,17 @@
+.card-header{
+    height: auto;
+}
+
+.card-body{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+
+.card-actions{
+    height: auto;
+}
+
+button:hover, button:focus {
+    border: none;
+    outline: none;
+}

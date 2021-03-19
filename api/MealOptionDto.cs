@@ -4,12 +4,15 @@ namespace ChowServerlessRestAPI
 {
   public class MealOptionDto
   {
-    public string Id { get; set; } = Guid.NewGuid().ToString();
+    public string Id { get; set; }
     public string MealId { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
-    public int Period { get; set; }
+    public bool IsLocked { get; set; }
     public string Category { get; set; }
-    public int DayOfTheWeek { get; set; } = new Random().Next(0, 6);
+    public string Calories { get; set; }
+    public string ThumbnailURL { get; set; }
+    public string DateCreated { get; set; }
+    public string LastModified { get; set; }
   }
 }

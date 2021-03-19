@@ -18,12 +18,12 @@ function App() {
         <Route path="/details/:id" component={MealDetailsPage}/>
         </Switch>
       </main>
-      <footer>
+      {/* <footer>
         <span>
           &copy; All rights reserved.{" "}
           <a href="https://peculia.xyz">peculia.xyz</a>
         </span>
-      </footer>
+      </footer> */}
     </Router>
   );
 }

@@ -1,7 +1,60 @@
 import React, { useState } from "react";
-import SimpleBackBtn from './../../components/back-btn';
-import {AppSettings} from '../../shared/shared'
+import SimpleBackBtn from './../../components/back-btn'
+import { makeStyles } from '@material-ui/core/styles';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import MenuItem from '@material-ui/core/MenuItem';
+import MuiAlert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
+import TextField from '@material-ui/core/TextField';
+import { AppSettings } from './../../shared/appsettings'
 import "./add-meal.page.css";
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { MealOptionModel, mealCategory } from "../../models/models";
+
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+  },
+}));
+
+const categoryOptions = [
+  {
+    value: mealCategory.breakfast,
+    label: mealCategory.breakfast,
+  },
+  {
+    value: mealCategory.brunch,
+    label: mealCategory.brunch,
+  },
+  {
+    value: mealCategory.lunch,
+    label: mealCategory.lunch,
+  },
+  {
+    value: mealCategory.afternoonSnack,
+    label: mealCategory.afternoonSnack,
+  },
+  {
+    value: mealCategory.supper,
+    label: mealCategory.supper,
+  },
+  {
+    value: mealCategory.eveningSnack,
+    label: mealCategory.eveningSnack,
+  }
+];
+
+
+const isNotNullOrEmpty = (strVal) => strVal !== null && strVal !== undefined && strVal !== "" && strVal.length > 3;
+
 
 const postDataToRemoteServer = async ({ data }) => {
   const postOptions = {
@@ -11,7 +64,6 @@ const postDataToRemoteServer = async ({ data }) => {
     },
     body: JSON.stringify(data)
   };
-  console.debug(`Adding new meal to db: ${data}`);
   return fetch(`${AppSettings.mealsAPI.baseURL}/mealoptions`, postOptions)
     .then(response => response.json())
     .then(res => res)
@@ -20,49 +72,100 @@ const postDataToRemoteServer = async ({ data }) => {
     });
 };
 
-function AddMealPage() {
+function AddMealPage(props) {
   const [isLoading, setIsLoading] = useState(false);
-  const [formErrs, setFormErrs] = useState("");
+  const [mealNameIsInvalid, setMealNameIsInvalid] = useState(false);
 
   const [mealName, setMealName] = useState("");
   const [mealDescr, setMealDescr] = useState("");
-  const [mealCategory, setMealCategory] = useState("");
-  const [period, setPeriod] = useState(1);
-  const [dayNum, setDayNum] = useState(1);
+  const [samplePicURL, setSamplePicURL] = useState("");
+  const [mealCategory, setMealCategory] = useState(categoryOptions[0].value);
+  const [estimatedMealcalories, setCalories] = useState(10);
+  const [snackState, setSnackState] = useState({ isOpen: false, msg: "Success", timeout: 2000, severity: "info", lastRide: false });
 
-  const handleMealNameChange = event => setMealName(event.target.value);
+
+  const goHome = () => {
+    if (snackState.lastRide) {
+      props.history.push("/");
+    }
+  };
+
+  const handleMealNameChange = (event) => {
+    const newVal = event.target.value;
+    let isInValid = false;
+    setMealName(newVal);
+
+
+    if (newVal == null || newVal == undefined || newVal == "" || newVal.length < 3) {
+      isInValid = true;
+    }
+    setMealNameIsInvalid(isInValid);
+  }
+
   const handleMealDescrChange = event => setMealDescr(event.target.value);
   const handleCategoryChange = event => setMealCategory(event.target.value);
-  const handleDayNumChange = event => setDayNum(event.target.value);
+  const handleCalorieChange = event => setCalories(event.target.value);
+  const handleSamplePicURLChange = event => setSamplePicURL(event.target.value);
 
   const resetForm = () => {
     setIsLoading(false);
-    setFormErrs("");
     setMealName("");
     setMealDescr("");
-    setPeriod(1);
-    setDayNum(1);
+    setMealCategory("");
+    setSamplePicURL("");
+    setCalories(10);
+  }
+
+  const validateForm = () => {
+    return isNotNullOrEmpty(mealName) && isNotNullOrEmpty(mealCategory) && isNotNullOrEmpty(mealDescr) && estimatedMealcalories > 0;
+  }
+
+  const handleSnackClose = () => {
+    setSnackState({
+      isOpen: false
+    });
+    goHome();
   };
 
   const submitNewMealOption = async event => {
     event.preventDefault();
-    const formVal = {
-      id: "",
-      uniqueIdentifier: "tty",
-      shortName: mealName,
+    if (!validateForm()) {
+      setSnackState({
+        msg: "Form is invalid, please correct",
+        isOpen: true,
+        timeout: 2500,
+        severity: "warning"
+      });
+      return;
+    }
+    const formVal = new MealOptionModel({
+      name: mealName,
+      category: mealCategory,
       description: mealDescr,
-      period: Number(period),
-      day: Number(dayNum)
-    };
+      calories: estimatedMealcalories,
+      thumbnailURL: samplePicURL ?? AppSettings.DefaultThumbnailURL
+    });
 
     setIsLoading(true);
     try {
-      await postDataToRemoteServer({ data: formVal });
-      console.debug("New meal successfully added");
-    } catch (error) {
-      console.error("Error adding new meal", error);
-    } finally {
+      await postDataToRemoteServer({ data: formVal.toJson() });
+      setSnackState({
+        msg: "New meal successfully added",
+        isOpen: true,
+        timeout: 800,
+        severity: "success",
+        lastRide: true
+      });
       resetForm();
+    } catch (error) {
+      setSnackState({
+        msg: "Error adding new meal, please try again." + error,
+        isOpen: true,
+        timeout: 2000,
+        severity: "success"
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
@@ -70,67 +173,73 @@ function AddMealPage() {
       <header>
         <h2>Add a new meal</h2>
       </header>
-      <form onSubmit={submitNewMealOption}>
-        <section className="form-group">
-          <label htmlFor="mealName">Meal Name</label>
-          <input
-            type="text"
-            value={mealName}
-            maxLength="100"
-            onChange={handleMealNameChange}
-            name="mealName"
-            id="mealName"
-            className="chow-text-input"
-            placeholder="e.g. Protein shake"
-          />
-        </section>
+      <form onSubmit={submitNewMealOption} style={{ backgroundColor: "transparent", padding: 0 }}>
+        <TextField value={mealName}
+          error={mealNameIsInvalid}
+          helperText="Please enter a valid name"
+          type="text"
+          maxLength="250"
+          placeholder="e.g. Avo Sandwich"
+          onChange={handleMealNameChange}
+          label="Name of the meal" />
 
-        <section className="form-group">
-          <label htmlFor="mealDescr">Description</label>
-          <textarea
-            rows="6"
-            value={mealDescr}
-            onChange={handleMealDescrChange}
-            name="mealDescr"
-            id="mealDescr"
-            className="chow-text-area"
-            placeholder="e.g. 150g herbal shake with semi-skimmed milk"
-          />
-        </section>
+        <TextField
+          id="filled-select-currency-native"
+          select
+          label="Meal category"
+          value={mealCategory}
+          onChange={handleCategoryChange}
+          InputLabelProps={{ shrink: true }}
+          SelectProps={{
+            native: true,
+          }}
+          helperText="Please select the meal category"
+        >
+          {categoryOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </TextField>
 
-        {/* <section className="form-group">
-          <label htmlFor="dayNum">Day number</label>
-          <input
-            type="number"
-            value={dayNum}
-            onChange={handleDayNumChange}
-            min="1"
-            max="7"
-            name="dayNum"
-            id="dayNum"
-            className="chow-text-input"
-            placeholder="e.g. 1 - Monday, 2 -Tuesday etc."
-          />
-        </section> */}
+        <TextField
+          id="meal-desc"
+          label="Description"
+          placeholder="e.g. 150g herbal shake with semi-skimmed milk"
+          rowsMax={8}
+          value={mealDescr}
+          onChange={handleMealDescrChange}
+          multiline
+        />
 
-        <section className="form-group">
-          <label htmlFor="Category">Period</label>
-          <input
-            type="text"
-            value={mealCategory}
-            onChange={handleCategoryChange}
-            name="category"
-            id="category"
-            className="chow-text-input"
-            placeholder="e.g. Breakfast, Lunch, Supper etc."
-          />
-        </section>
+        <TextField
+          label="Estimated Calories"
+          value={estimatedMealcalories}
+          onChange={handleCalorieChange}
+          type="number"
+          InputLabelProps={{ shrink: true }}
+        />
+
+
+        <TextField
+          label="Sample Picture URL"
+          value={samplePicURL}
+          onChange={handleSamplePicURLChange}
+          placeholder="Enter a publicly accessbile picture url"
+          InputLabelProps={{ shrink: true }}
+        />
 
         <section className="action-btns">
-          <button className="chow-btn">Save</button>
-          <SimpleBackBtn/>
+          <button disabled={mealNameIsInvalid} className={mealNameIsInvalid ? "chow-btn-disabled" : "chow-btn"}>Save</button>
+          <SimpleBackBtn />
         </section>
       </form>
+      <Snackbar open={snackState.isOpen} autoHideDuration={snackState.timeout} onClose={handleSnackClose}>
+        <Alert severity={snackState.severity}>
+          {snackState.msg}
+        </Alert>
+      </Snackbar>
+      {isLoading ? <LinearProgress color="secondary" /> : ""}
     </>
   );
 }
