@@ -68,9 +68,9 @@ export function MealCard({ mealOptions, viewMealDetailsHanlder }) {
         console.debug(`Lock ${locked ? "released" : "applied"}!`);
     };
 
-    const getCalorieColor = () => {
+    const getCalorieColor = (meal) => {
 
-        const calorieValue = visibleMealOption?.calories ?? 0;
+        const calorieValue = meal?.calories ?? 0;
         if (calorieValue < 250) {
             setCalorieColor(green[600]);
             return;
@@ -83,11 +83,12 @@ export function MealCard({ mealOptions, viewMealDetailsHanlder }) {
 
         if (calorieValue > 350 && calorieValue <= 500) {
             setCalorieColor(orange[600]);
+
             return;
         }
-
         setCalorieColor(red[500]);
     }
+
 
     const handleEditClick = () => {
         viewMealDetailsHanlder(visibleMealOption);
@@ -124,12 +125,7 @@ export function MealCard({ mealOptions, viewMealDetailsHanlder }) {
         console.debug("Swipe left, dismiss!", "New Idx", newIdx);
         setMealOptionIdx(newIdx);
         setVisibleMealOption(mealsList[newIdx]);
-        getCalorieColor();
-
-        // const newIdx = (mealOptionIdx - 1) < 0 ? 0 : mealOptionIdx -1;
-        // setMealOptionIdx(newIdx);
-        // setVisibleMealOption(mealsList[newIdx]);
-        // getCalorieColor();
+        getCalorieColor(mealsList[newIdx]);
     };
 
     const truncateLongText = ({ text, maxLength = 90, noofEllipses = 3 }) => {
@@ -143,7 +139,7 @@ export function MealCard({ mealOptions, viewMealDetailsHanlder }) {
         if (mealOptions) {
             setVisibleMealOption(mealOptions[0]);
             setMealOptionsList(mealOptions);
-            getCalorieColor();
+            getCalorieColor(mealOptions[0]);
         }
     }, [mealOptions]);   // Reload card if mealOptions change
 
