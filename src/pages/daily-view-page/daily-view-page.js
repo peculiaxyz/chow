@@ -168,6 +168,7 @@ const DailyViewPage = props => {
         anchor="left"
         open={drawerOpen}
         onClose={toggleDrawer}
+        onOpen={()=>{}}
       >
         <List>
           {['Settings'].map((text, index) => (

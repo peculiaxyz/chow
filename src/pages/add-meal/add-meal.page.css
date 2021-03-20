@@ -3,7 +3,10 @@ form {
   display: grid;
   grid-template-rows: auto auto auto auto;
   grid-row-gap: 1.5em;
-  font-family:sans-serif !important;
+}
+
+form, header{
+  padding: 8px;
 }
 
 .form-group {

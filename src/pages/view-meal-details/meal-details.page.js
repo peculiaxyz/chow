@@ -54,7 +54,7 @@ function MealDetailsPage({ history, match }) {
       return;
     }
 
-    const fetchUrl = `${AppSettings.mealsAPI.baseURL}/mealoptions/${match.params.id}`;
+    const fetchUrl = `${AppSettings.mealsAPI.baseURL}mealoptions/${match.params.id}`;
     fetch(fetchUrl)
       .then(res => res.json())
       .then(res => {
@@ -77,7 +77,7 @@ function MealDetailsPage({ history, match }) {
       localStorage.removeItem(match.params.id);
     }
 
-    fetch(`${AppSettings.mealsAPI.baseURL}/mealoptions?id=${selectedMeal.mealId}`, { method: 'DELETE' })
+    fetch(`${AppSettings.mealsAPI.baseURL}mealoptions?id=${selectedMeal.mealId}`, { method: 'DELETE' })
       .then(response => response.json())
       .then(res => {
         setSnackState({

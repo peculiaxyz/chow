@@ -1,6 +1,7 @@
 .container{
     display: grid;
     grid-template-rows: auto 2fr auto auto auto auto;
+    padding: 8px;
 }
 
 header {
