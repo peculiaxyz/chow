@@ -172,12 +172,12 @@ export function MealCard({ mealOptions, viewMealDetailsHanlder }) {
             </section>
 
             <CardActions className="card-actions" disableSpacing>
-                <IconButton onClick={handleLoveClick} aria-label="add to favorites">
+                {/* <IconButton onClick={handleLoveClick} aria-label="add to favorites">
                     <FavoriteIcon />
                 </IconButton>
                 <IconButton onClick={handleShareClick} aria-label="share">
                     <ShareIcon />
-                </IconButton>
+                </IconButton> */}
                 <IconButton
                     className={clsx(classes.expand, {
                         [classes.expandOpen]: locked,
