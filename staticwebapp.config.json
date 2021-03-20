@@ -21,14 +21,9 @@
       "statusCode": 403
     },
     {
-      "route": "/api/*",
-      "methods": ["POST", "PUT", "PATCH"],
+      "route": "/api/mealoptions",
+      "methods": ["POST", "PUT", "PATCH", "DELETE"],
       "allowedRoles": ["authenticated"]
-    },
-    {
-      "route": "/api/*",
-      "methods": ["DELETE"],
-      "allowedRoles": ["mealsAdmin"]
     }
   ],
   "401": {
